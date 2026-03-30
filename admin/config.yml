@@ -1,0 +1,18 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "food"
+    label: "食記"
+    folder: "content/food"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "店名", name: "title", widget: "string" }
+      - { label: "簡介", name: "description", widget: "string" }
+      - { label: "圖片", name: "image", widget: "image" }
+      - { label: "內容", name: "body", widget: "markdown" }
