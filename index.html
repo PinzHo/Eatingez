@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>我的食記</title>
+
+  <!-- ✅ Netlify Identity（一定要在 head 裡） -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -50,7 +54,6 @@
       font-size: 14px;
     }
 
-    /* 詳細頁 */
     .modal {
       position: fixed;
       top: 0;
@@ -83,7 +86,6 @@
       cursor: pointer;
     }
   </style>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -91,7 +93,6 @@
 
 <div class="container" id="list"></div>
 
-<!-- 詳細頁 -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <h2 id="detail-title"></h2>
@@ -102,24 +103,20 @@
 </div>
 
 <script>
+// 👉 測試資料（之後會改成 CMS 自動讀取）
 const data = [
   {
     name: "鹹酥雞攤",
     desc: "甜不辣+青椒超搭",
     img: "https://via.placeholder.com/300",
     detail: "這家鹹酥雞真的很強，甜不辣炸得剛好，青椒很解膩，整體搭配非常舒服。"
-  },
-  {
-    name: "拉麵店",
-    desc: "湯頭濃郁",
-    img: "https://via.placeholder.com/300",
-    detail: "湯頭偏重口味，叉燒很軟嫩，適合喜歡重口味的人。"
   }
 ];
 
 const list = document.getElementById("list");
 
 function render() {
+  list.innerHTML = "";
   data.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "card";
@@ -147,6 +144,17 @@ function openModal(index) {
 
 function closeModal() {
   document.getElementById("modal").style.display = "none";
+}
+
+// 👉 Netlify Identity 自動導向（重要）
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
 }
 
 render();
