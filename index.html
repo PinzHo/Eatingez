@@ -114,6 +114,7 @@ const data = [
 ];
 
 const list = document.getElementById("list");
+if (!list) return;
 
 function render() {
   list.innerHTML = "";
@@ -157,7 +158,9 @@ if (window.netlifyIdentity) {
   });
 }
 
-render();
+document.addEventListener("DOMContentLoaded", () => {
+  render();
+});
 </script>
 
 </body>
